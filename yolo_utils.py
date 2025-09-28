@@ -22,12 +22,18 @@ def ensure_yolov5_ready():
     if not Y5_DIR.exists():
         subprocess.run(["git", "clone", "https://github.com/ultralytics/yolov5.git", str(Y5_DIR)], check=True)
     _pip_install_requirements()
-    # Para 'from yolov5.x import ...' Python necesita el directorio PADRE en sys.path
+
     parent = str(BASE_DIR)
     if parent not in sys.path:
         sys.path.insert(0, parent)
-    # sanity
+
+    # 👇 Agrega ESTO: que Python pueda resolver "utils" dentro de yolov5/
+    y5_str = str(Y5_DIR)
+    if y5_str not in sys.path:
+        sys.path.insert(0, y5_str)
+
     assert (Y5_DIR / "models" / "common.py").exists(), "YOLOv5 repo no válido."
+
 
 # Llama al setup antes de los imports de yolov5
 ensure_yolov5_ready()
@@ -57,7 +63,7 @@ def find_best_model():
 
     candidates = []
     for name in ("best.pt", "last.pt"):
-        for p in (BASE_DIR / "runs" / "train").glob(f"*/weights/{name}"):
+        for p in (Y5_DIR / "runs" / "train").glob(f"*/weights/{name}"):
             try:
                 mtime = p.stat().st_mtime
             except Exception:
