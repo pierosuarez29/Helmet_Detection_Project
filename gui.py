@@ -1,15 +1,16 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
-from yolo_utils import load_model_auto, run_detection  # todo automático
+from yolo_utils import load_model_auto, run_detection
 
-# Carga el modelo automáticamente (best.pt más reciente, o diálogo)
+# Automatically load the latest available model (best.pt or prompt user)
 try:
     model, stride, names, device = load_model_auto()
 except Exception as e:
-    messagebox.showerror("Error al cargar modelo", str(e))
+    messagebox.showerror("Model loading error", str(e))
     raise SystemExit
 
 def open_file():
+    # Open a dialog to select a video file for detection
     fp = filedialog.askopenfilename(
         title="Select a video file",
         filetypes=[("Video files", "*.mp4;*.avi;*.mov;*.mkv"), ("All files", "*.*")]
@@ -18,7 +19,7 @@ def open_file():
         run_detection(fp, model, stride, names, device)
 
 def open_camera():
-    # índice 0 es la webcam por defecto; cambia si necesitas otra
+    # Webcam index 0 is the default camera
     run_detection(0, model, stride, names, device)
 
 def main():
