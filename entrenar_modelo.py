@@ -15,27 +15,26 @@ try:
 except ImportError:
     subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", str(Y5_DIR / "requirements.txt")])
 
-# 2.5) 🔧 Nota sobre data.yaml
+# 2.5) Note on data.yaml configuration
 # ---------------------------------------
-# Para que YOLOv5 encuentre tu dataset correctamente, 
-# asegúrate de que las rutas en "Detector_de_Cascos-4/data.yaml" 
-# usen un nivel hacia arriba (../), ya que train.py se ejecuta 
-# dentro de la carpeta "yolov5".
+# To ensure YOLOv5 correctly locates the dataset, 
+# verify that the paths specified in "Detector_de_Cascos-4/data.yaml"
+# are defined relative to the execution of train.py, which runs
+# inside the "yolov5" directory.
 #
-# ❌ Ejemplo que falla:
+# Incorrect example (will fail):
 #   train: Detector_de_Cascos-4/train/images
 #   val:   Detector_de_Cascos-4/valid/images
-#   test:  ../test/images
+#   test:  Detector_de_Cascos-4/test/images
 #
-# ✅ Ejemplo correcto:
+# Correct example:
 #   train: ../Detector_de_Cascos-4/train/images
 #   val:   ../Detector_de_Cascos-4/valid/images
 #   test:  ../Detector_de_Cascos-4/test/images
 #
-# De esta manera, las rutas siempre funcionarán en cualquier PC.
+# Using relative paths in this manner ensures portability 
+# across different systems and environments.
 # ---------------------------------------
-
-# 3) Lanza el entrenamiento (cambiando cwd para que yolov5 resuelva bien las rutas)
 subprocess.run(
     [
         sys.executable, "train.py",
