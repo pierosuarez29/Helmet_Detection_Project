@@ -1,4 +1,5 @@
 # 🪖 Helmet Detection System – YOLOv5s  
+📢 **International Research Presentation:** > Featured project at the **IV International Congress of Industrial Engineering (University of Lima, 2025)**, recognized by the **National University of Trujillo** for its contribution to **Industrial Safety and AI**.
 
 ## Overview  
 This repository contains a computer vision system designed to **detect safety helmet compliance on construction sites**.  
